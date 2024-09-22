@@ -17,4 +17,6 @@ const ToolBarHeader = forwardRef(({ savedState }, ref) => {
   );
 });
 
+ToolBarHeader.displayName = "ToolBarHeader";
+
 export default ToolBarHeader;

@@ -33,4 +33,6 @@ const AllTools = forwardRef(({ savedState: [saved, setSaved] }, ref) => {
   );
 });
 
+AllTools.displayName = "AllTools";
+
 export default AllTools;
