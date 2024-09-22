@@ -6,14 +6,18 @@ import { FaChevronLeft } from "react-icons/fa";
 import { FaChevronRight } from "react-icons/fa";
 import ToolBarHeader from "@/app/components/toolbarheader";
 import { useRef, useState } from "react";
+// import { Socket } from "socket.io-client";
+// import { io } from "socket.io-client";
 
 const Page = () => {
+  console.log(process.env.SOCKET_SERVER_URL);
+  // const socket = io(process.env.SOCKET_SERVER_URL);
+  // socket.disconnect();
   const customPrevArrow = (onClickHandler, hasPrev) =>
     hasPrev && (
       <button
         className="bg-red-300 p-4 absolute top-1/2 translate-y--1/2 left-3 z-10"
         onClick={onClickHandler}
-        id="trace"
       >
         <FaChevronLeft />
       </button>
