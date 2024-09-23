@@ -5,14 +5,35 @@ import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a lo
 import { FaChevronLeft } from "react-icons/fa";
 import { FaChevronRight } from "react-icons/fa";
 import ToolBarHeader from "@/app/components/toolbarheader";
-import { useRef, useState } from "react";
-// import { Socket } from "socket.io-client";
-// import { io } from "socket.io-client";
+import { useEffect, useRef, useState } from "react";
+import { io } from "socket.io-client";
 
 const Page = () => {
-  console.log(process.env.SOCKET_SERVER_URL);
-  // const socket = io(process.env.SOCKET_SERVER_URL);
-  // socket.disconnect();
+  const socket = useRef(null);
+
+  useEffect(() => {
+    const socketServerUrl = process.env.NEXT_PUBLIC_SOCKET_SERVER_URL;
+    // console.log(socketServerUrl);
+
+    socket.current = io(socketServerUrl);
+
+    socket.current.on("connect", () => {
+      console.log("connected to server");
+    });
+
+    socket.current.on("drawing", (data) => {
+      ref.current.loadPaths(data);
+    });
+
+    socket.current.on("disconnect", () => {
+      console.log("disconnected from server");
+    });
+
+    return () => {
+      socket.current.disconnect();
+    };
+  }, []);
+
   const customPrevArrow = (onClickHandler, hasPrev) =>
     hasPrev && (
       <button
@@ -34,6 +55,7 @@ const Page = () => {
     );
   const [saved, setSaved] = useState(false);
   const ref = useRef(null);
+
   return (
     <>
       <ToolBarHeader ref={ref} savedState={[saved, setSaved]} />
@@ -48,6 +70,9 @@ const Page = () => {
             strokeColor="black"
             strokeWidth={3}
             ref={ref}
+            onStroke={(data) => {
+              socket.current.emit("drawing", data);
+            }}
           />
         </div>
         <div className="w-screen h-screen p-5">

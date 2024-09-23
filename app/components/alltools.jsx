@@ -10,7 +10,7 @@ const AllTools = forwardRef(({ savedState: [saved, setSaved] }, ref) => {
       className="absolute top-full left-0 w-auto flex gap-4 p-4 m-2 ml-0 bg-yellow-500 rounded-xl transition-all cursor-default"
       onClick={(e) => e.stopPropagation()}
     >
-      <button
+      {/* <button
         onClick={() => {
           ref.current.loadPaths(saved);
         }}
@@ -19,7 +19,7 @@ const AllTools = forwardRef(({ savedState: [saved, setSaved] }, ref) => {
       </button>
       <button onClick={async (e) => setSaved(await ref.current.exportPaths())}>
         <FaFileExport />
-      </button>
+      </button> */}
       <button onClick={() => ref.current.undo()}>
         <FaUndo />
       </button>
