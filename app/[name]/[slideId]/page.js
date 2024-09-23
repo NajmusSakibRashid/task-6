@@ -7,9 +7,11 @@ import { FaChevronRight } from "react-icons/fa";
 import ToolBarHeader from "@/app/components/toolbarheader";
 import { useEffect, useRef, useState } from "react";
 import { io } from "socket.io-client";
+import Loading from "@/app/components/loading";
 
 const Page = () => {
   const socket = useRef(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const socketServerUrl = process.env.NEXT_PUBLIC_SOCKET_SERVER_URL;
@@ -18,6 +20,7 @@ const Page = () => {
     socket.current = io(socketServerUrl);
 
     socket.current.on("connect", () => {
+      setLoading(false);
       console.log("connected to server");
     });
 
@@ -58,6 +61,7 @@ const Page = () => {
 
   return (
     <>
+      {loading && <Loading />}
       <ToolBarHeader ref={ref} savedState={[saved, setSaved]} />
       <Carousel
         renderArrowPrev={customPrevArrow}
